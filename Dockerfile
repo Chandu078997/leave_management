@@ -14,8 +14,12 @@ COPY src src
 RUN ./mvnw clean package -DskipTests
 
 # ---------- Runtime Stage ----------
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
+
+# Add non-root user for security
+RUN addgroup --system spring && adduser --system spring --ingroup spring
+USER spring
 
 # Copy only the final JAR
 COPY --from=build /app/target/leave-management-0.0.1-SNAPSHOT.jar app.jar
@@ -23,6 +27,9 @@ COPY --from=build /app/target/leave-management-0.0.1-SNAPSHOT.jar app.jar
 # Use Render's dynamic PORT (or default 8080)
 ENV PORT=8080
 EXPOSE ${PORT}
+
+# Healthcheck (optional, requires Spring Boot actuator)
+# HEALTHCHECK CMD curl -f http://localhost:${PORT}/actuator/health || exit 1
 
 # Run Spring Boot with dynamic port and no extra context path
 ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=${PORT}", "--server.servlet.context-path=/"]
