@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/leaves")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000","https://stirring-tulumba-b45557.netlify.app/")
 public class LeaveController {
 
     private final LeaveService leaves;
