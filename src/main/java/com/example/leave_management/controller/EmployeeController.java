@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:3000","https://stirring-tulumba-b45557.netlify.app/"})  // allow frontend React
+@CrossOrigin(origins = "https://stirring-tulumba-b45557.netlify.app")  // allow frontend React
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
